@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="어디서 살까">
+<title>어디서 살까? 명품 해외 vs 한국 가격 비교</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;600&display=swap">
+<style>
+:root{--bg:#faf8f4;--card:#fff;--ink:#111;--mute:#6b665d;--line:#e2ddd2;--accent:#9a7b3f;--on:#fff;--win:#7d6128;--lose:#8a2332;--bar:#d8d2c4;--tint:#f1ede4;--serif:"Noto Serif KR","Apple SD Gothic Neo",Georgia,serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0c0c0c;--card:#161616;--ink:#f1ede4;--mute:#9a958a;--line:#2b2924;--accent:#c9a96a;--on:#111;--win:#d4b57a;--lose:#e08a8f;--bar:#3a372f;--tint:#1a1916;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0c0c0c;--card:#161616;--ink:#f1ede4;--mute:#9a958a;--line:#2b2924;--accent:#c9a96a;--on:#111;--win:#d4b57a;--lose:#e08a8f;--bar:#3a372f;--tint:#1a1916;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:300 16px/1.65 "Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-variant-numeric:tabular-nums}
+#app{max-width:480px;margin:0 auto;min-height:100vh;padding:0 18px 120px}
+header{display:flex;align-items:center;gap:10px;height:56px}
+#back{width:40px;height:40px;border:0;background:transparent;color:var(--ink);font-size:22px;cursor:pointer;border-radius:50%}
+#back[hidden]{display:none}
+.dots{display:flex;gap:6px;margin-left:auto}
+.dots i{width:24px;height:2px;background:var(--bar)}
+.dots i.on{background:var(--accent)}
+.title{font:600 15px var(--serif);letter-spacing:.04em}
+.view{display:none}
+.view.on{display:block;animation:in .28s ease-out}
+@keyframes in{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.view.on{animation:none}.bar i{transition:none!important}}
+h1{font:600 clamp(30px,9vw,40px)/1.25 var(--serif);letter-spacing:-.02em;margin:40px 0 14px}
+h2{font:600 22px/1.4 var(--serif);margin:8px 0 4px}
+.sub{color:var(--mute);margin:0 0 22px}
+.steps{list-style:none;margin:26px 0;padding:0}
+.steps li{display:flex;gap:14px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.steps li:last-child{border-bottom:1px solid var(--line)}
+.steps b{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;border:1px solid var(--accent);color:var(--accent);font:400 14px var(--serif);flex:none}
+label{display:block;font-size:14px;color:var(--mute);margin:14px 0 4px}
+input,select{width:100%;font:inherit;font-weight:400;font-size:17px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:0;padding:12px}
+input:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hint{font-size:13px;color:var(--mute);margin:6px 0 0}
+.err{color:var(--lose);font-size:14px;min-height:22px;margin:10px 0 0}
+details{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+summary{cursor:pointer;font-weight:500}
+.bottom{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid var(--line);padding:12px 18px calc(12px + env(safe-area-inset-bottom,0px))}
+.bottom div{max-width:480px;margin:0 auto;display:grid;gap:8px}
+.btn{font:inherit;font-weight:500;font-size:16px;letter-spacing:.04em;border:1px solid var(--ink);border-radius:0;padding:15px;background:var(--ink);color:var(--bg);cursor:pointer;width:100%}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:400;padding:12px}
+.verdict{font:600 28px/1.3 var(--serif);margin:14px 0 4px;letter-spacing:-.02em}
+.win{color:var(--win)}.lose{color:var(--lose)}
+.bars{margin:18px 0}
+.bar{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:14px}
+.bar b{width:40px;font-weight:500}
+.bar i{display:block;height:12px;background:var(--bar);transition:width .4s}
+.bar i.best{background:var(--accent)}
+.ledger{margin:0;padding:0;list-style:none;font-size:15px}
+.ledger li{display:flex;gap:8px;padding:5px 0}
+.ledger li::after{content:"";order:1;flex:1;border-bottom:1px dotted var(--line);transform:translateY(-6px)}
+.ledger li span:first-child{order:0}.ledger li span:last-child{order:2}
+.ledger li.tot{font-weight:700;border-top:1px solid var(--ink);margin-top:6px;padding-top:10px}
+.ledger li.tot::after{display:none}.ledger li.tot span:first-child{flex:1}
+.sens{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin-top:10px}
+.sens div{background:var(--tint);border-radius:0;padding:8px 2px;text-align:center;font-size:12px;line-height:1.4}
+.sens div.now{outline:2px solid var(--accent)}
+.chk h3{font:600 16px var(--serif);margin:22px 0 4px}
+.chk label{display:flex;align-items:flex-start;gap:10px;color:var(--ink);font-size:15px;margin:10px 0}
+.chk input{width:20px;height:20px;padding:0;margin-top:3px;accent-color:var(--accent);flex:none}
+.items{list-style:none;margin:0;padding:0}
+.items li{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 0;border-top:1px solid var(--line)}
+.items li>div:first-child{flex:1;min-width:0}
+.items button{border:0;background:transparent;color:var(--mute);font-size:22px;cursor:pointer}
+.save{display:grid;gap:8px;margin-top:22px;border-top:1px solid var(--line);padding-top:16px}
+.note{font-size:12px;color:var(--mute);margin-top:20px}
+</style>
+</head>
+<body>
+<div id="app">
+<header><button id="back" aria-label="뒤로" hidden>←</button><span class="title" id="ttl"></span><div class="dots" id="dots"></div></header>
+
+<section class="view" id="v-start">
+<h1>해외에서 살까,<br>한국에서 살까?</h1>
+<p class="sub">현지 가격, 환율, 세금환급, 귀국 시 세금까지 모두 더해서 한국 판매가와 비교해 드려요.</p>
+<ul class="steps">
+<li><b>1</b><span>가방 가격 입력</span></li>
+<li><b>2</b><span>환율과 수수료 확인</span></li>
+<li><b>3</b><span>어디가 얼마나 이득인지 보기</span></li>
+</ul>
+<div class="row"><button class="btn ghost" data-go="list">내 가방 목록</button><button class="btn ghost" data-go="check">구매 체크리스트</button></div>
+<p class="note">모든 값은 참고용이고, 입력한 내용과 목록은 이 기기에서만 저장돼요.</p>
+</section>
+
+<section class="view" id="v-price">
+<h2>가방 가격을 알려 주세요</h2>
+<p class="sub">공식 사이트나 매장에서 본 가격을 넣어 주세요.</p>
+<div class="row">
+<div><label for="cur">구매 국가</label><select id="cur"><option value="FR">프랑스 (EUR)</option><option value="IT">이탈리아 (EUR)</option><option value="ES">스페인 (EUR)</option><option value="DE">독일 (EUR)</option><option value="GB">영국 (환급 없음)</option><option value="JP">일본 (매장 면세)</option><option value="US">미국 (환급 없음)</option><option value="ETC">기타 국가</option></select></div>
+<div><label for="price">현지 판매가 <span id="cu"></span></label><input id="price" type="number" inputmode="decimal" min="0" placeholder="예: 3500"></div>
+</div>
+<p class="hint">세금이 포함된 표시 가격을 넣어 주세요.</p>
+<label for="korea">한국 판매가 (원)</label><input id="korea" type="number" inputmode="numeric" min="0" placeholder="예: 6200000">
+<p class="err" id="err1" role="alert"></p>
+</section>
+
+<section class="view" id="v-detail">
+<h2>환율과 수수료</h2>
+<p class="sub">기본값이 들어 있어요. 오늘 환율로 꼭 바꿔 주세요.</p>
+<div class="row">
+<div><label for="rate">결제 환율 (원)</label><input id="rate" type="number" inputmode="decimal" min="0"></div>
+<div><label for="crate">세관 환율 (원)</label><input id="crate" type="number" inputmode="decimal" min="0" placeholder="비우면 같음"></div>
+</div>
+<p class="hint">귀국 시 세금은 직전 한 주 평균 환율(관세환율)로 계산돼요. 유로·달러 기본값은 2026년 8월 기사 기준이에요. 파운드·엔 등은 1단위당 원으로 직접 입력해 주세요.</p>
+<div class="row">
+<div><label for="vat">현지 부가세율 (%)</label><input id="vat" type="number" inputmode="decimal" min="0" value="20"></div>
+<div><label for="rfee">환급 수수료 (%)</label><input id="rfee" type="number" inputmode="decimal" min="0" value="15"></div>
+</div>
+<p class="hint"><b>현지 부가세율</b>은 현지 가격에 이미 포함된 세금 비율이에요. 유럽은 보통 20% 안팎이고, 외국인 여행자는 이 중 일부를 돌려받을 수 있어요. <b>환급 수수료</b>는 환급 대행사가 떼어 가는 비율이에요. 국가별 기본값은 일반적인 값이니 구매 전에 확인해 주세요.</p>
+<div class="row">
+<div><label for="card">카드 수수료 (%)</label><input id="card" type="number" inputmode="decimal" min="0" value="1.5"></div>
+<div><label for="extra">기타 비용 (원)</label><input id="extra" type="number" inputmode="numeric" min="0" value="0"></div>
+</div>
+<p class="hint">수수료 기본값은 가정이에요. 본인 카드와 환급 조건에 맞게 고쳐 주세요.</p>
+<label for="fta">FTA 원산지 증명서</label><select id="fta"><option value="y">받을 수 있어요 (관세 0원)</option><option value="n">못 받아요</option></select>
+<div id="nofta" hidden><label for="ownrate">총 세율 직접 입력 (%)</label><input id="ownrate" type="number" inputmode="decimal" min="0" placeholder="예: 20"><p class="hint">관세청 ’여행자 세관신고’ 앱에서 예상 세액을 확인해 세율을 넣어 주세요.</p></div>
+<details><summary>귀국 시 총 세율 설정</summary>
+<p class="hint">환급 후 가격 기준 총 세율(%)이에요. 2023년 관세사 설명 기준이라 현재와 다를 수 있어요. 사이 구간은 직선으로 이어 계산합니다.</p>
+<div class="row">
+<div><label for="r3">300만원 이하</label><input id="r3" type="number" value="10"></div>
+<div><label for="r4">400만원</label><input id="r4" type="number" value="14"></div>
+<div><label for="r5">500만원</label><input id="r5" type="number" value="19"></div>
+<div><label for="r6">600만원 이상</label><input id="r6" type="number" value="23"></div>
+</div>
+</details>
+<p class="err" id="err2" role="alert"></p>
+</section>
+
+<section class="view" id="v-list"></section>
+
+<section class="view chk" id="v-check">
+<h2>구매 체크리스트</h2>
+<p class="sub">절차는 나라와 매장마다 달라요. 현지 안내를 꼭 함께 확인하세요.</p>
+<h3>출발 전</h3>
+<label><input type="checkbox">이 계산기로 후보 가방의 해외·한국 가격을 비교했어요</label>
+<label><input type="checkbox">환급과 증명서 발급에 필요한 여권을 챙겼어요</label>
+<h3>매장에서</h3>
+<label><input type="checkbox">부가세 환급 서류를 요청했어요</label>
+<label><input type="checkbox">FTA 원산지 증명서를 받을 수 있는지 물었어요</label>
+<label><input type="checkbox">영수증과 서류를 모두 보관했어요</label>
+<h3>귀국할 때</h3>
+<label><input type="checkbox">출국 공항에서 환급 절차를 마쳤어요</label>
+<label><input type="checkbox">’여행자 세관신고’ 앱으로 예상 세액을 확인했어요</label>
+<label><input type="checkbox">휴대품 신고서에 구매 물품을 빠짐없이 적었어요 (가족은 한 장으로 함께 작성 가능)</label>
+<p class="note">신고하지 않고 들여오다 적발되면 세금 외에 불이익이 있을 수 있어요. 해외 결제 내역이 많으면 조사 대상이 될 수 있으니 반드시 신고하세요.</p>
+</section>
+
+<section class="view" id="v-result" aria-live="polite"></section>
+</div>
+
+<nav class="bottom"><div id="cta"></div></nav>
+
+<script>
+const $=id=>document.getElementById(id);
+const num=id=>parseFloat($(id).value)||0;
+const won=n=>Math.round(n).toLocaleString('ko-KR')+'원';
+const man=n=>Math.round(Math.abs(n)/10000).toLocaleString('ko-KR')+'만원';
+const DEF={FR:{cu:'EUR',rate:1633,vat:20,rf:15},IT:{cu:'EUR',rate:1633,vat:22,rf:15},ES:{cu:'EUR',rate:1633,vat:21,rf:15},DE:{cu:'EUR',rate:1633,vat:19,rf:15},GB:{cu:'GBP',rate:'',vat:0,rf:0},JP:{cu:'JPY',rate:'',vat:10,rf:0},US:{cu:'USD',rate:1412,vat:0,rf:0},ETC:{cu:'',rate:'',vat:'',rf:15}};
+const VIEWS=['start','price','detail','result','list','check'];
+const TT={start:'',price:'가격',detail:'환율·수수료',result:'결과',list:'내 가방 목록',check:'구매 체크리스트'};
+const PREV={price:'start',detail:'price',result:'detail',list:'start',check:'start'};
+function setCur(){const d=DEF[$('cur').value];$('rate').value=d.rate;$('vat').value=d.vat;$('rfee').value=d.rf;$('cu').textContent=d.cu?'('+d.cu+')':''}
+function taxRate(b){
+  const p=[[3e6,num('r3')],[4e6,num('r4')],[5e6,num('r5')],[6e6,num('r6')]];
+  if(b<=p[0][0])return p[0][1]/100;
+  for(let i=0;i<3;i++)if(b<=p[i+1][0]){const t=(b-p[i][0])/(p[i+1][0]-p[i][0]);return(p[i][1]+t*(p[i+1][1]-p[i][1]))/100}
+  return p[3][1]/100;
+}
+function calc(rate){
+  const L=num('price'),v=num('vat')/100,rf=num('rfee')/100,cf=num('card')/100;
+  const r0=num('rate'),c0=num('crate'),ratio=c0&&r0?c0/r0:1;
+  const pay=L*rate,fee=pay*cf,rl=L*v/(1+v)*(1-rf),refund=rl*rate;
+  const base=(L-rl)*rate*ratio,tr=$('fta').value==='n'?num('ownrate')/100:taxRate(base),tax=base*tr,extra=num('extra');
+  return{pay,fee,refund,base,tr,tax,extra,total:pay+fee-refund+tax+extra};
+}
+function breakEven(K){
+  let lo=0,hi=num('rate')*6;
+  if(calc(hi).total<K)return null;
+  for(let i=0;i<50;i++){const m=(lo+hi)/2;calc(m).total<K?lo=m:hi=m}
+  return lo;
+}
+function renderResult(){
+  const L=num('price'),K=num('korea'),r=num('rate'),R=$('v-result');
+  const c=calc(r),diff=K-c.total,same=Math.abs(diff)<10000,mx=Math.max(c.total,K),be=breakEven(K);
+  const head=same?'어디서 사도 비슷해요':diff>0?`해외 구매가 ${man(diff)} 이득`:`한국 구매가 ${man(diff)} 이득`;
+  const sens=[-10,-5,0,5,10].map(p=>{const rr=r*(1+p/100),d=K-calc(rr).total;
+    return`<div class="${p===0?'now':''}">환율 ${p>0?'+':''}${p}%<br>${Math.round(rr).toLocaleString('ko-KR')}원<br><b class="${d>=0?'win':'lose'}">${d>=0?'해외':'한국'} ${man(d)}</b></div>`}).join('');
+  R.innerHTML=`<p class="verdict ${same?'':diff>0?'win':'lose'}">${head}</p>
+  <p class="hint">한국 판매가 ${won(K)} vs 해외 총액 ${won(c.total)}</p>
+  <div class="bars">
+   <div class="bar"><b>해외</b><i class="${c.total<=K?'best':''}" style="width:${c.total/mx*58}%"></i><span>${man(c.total)}</span></div>
+   <div class="bar"><b>한국</b><i class="${K<c.total?'best':''}" style="width:${K/mx*58}%"></i><span>${man(K)}</span></div>
+  </div>
+  <ul class="ledger">
+   <li><span>현지 결제액 (원화)</span><span>${won(c.pay)}</span></li>
+   <li><span>카드 수수료</span><span>+${won(c.fee)}</span></li>
+   <li><span>부가세 환급 (수수료 차감)</span><span>−${won(c.refund)}</span></li>
+   <li><span>귀국 시 세금 (${(c.tr*100).toFixed(1)}%)</span><span>+${won(c.tax)}</span></li>
+   <li><span>기타 비용</span><span>+${won(c.extra)}</span></li>
+   <li class="tot"><span>해외 구매 총액</span><span>${won(c.total)}</span></li>
+  </ul>
+  <h2 style="margin-top:24px;font-size:18px">환율이 바뀌면?</h2>
+  <div class="sens">${sens}</div>
+  <div class="save"><label for="bname">가방 이름 (예: 샤넬 클래식 미디움)</label><input id="bname" maxlength="30"><button class="btn" data-act="save">목록에 담기</button><button class="btn ghost" data-act="copy">결과 복사하기</button><p class="hint" id="saved" role="status"></p></div>
+  <p class="hint" style="margin-top:12px">${be?`손익분기 환율은 약 ${Math.round(be).toLocaleString('ko-KR')}원이에요. 이보다 환율이 높으면 한국에서 사는 편이 유리합니다.`:'환율이 아주 높아져도 해외가 유리해요.'}${c.base>6e6?' 과세 금액이 600만원을 넘어 세율은 추정이에요.':''}</p>
+  <p class="note">면세한도(1인 800달러)는 반영하지 않았어요. 실제 세액은 관세청 ’여행자 세관신고’ 앱이나 관세사에게 확인하세요.</p>`;
+}
+const LS='bagList',esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const load=()=>{try{return JSON.parse(localStorage.getItem(LS))||[]}catch(e){return[]}};
+const store=a=>{try{localStorage.setItem(LS,JSON.stringify(a))}catch(e){}};
+function summary(){const c=calc(num('rate')),K=num('korea');return{diff:K-c.total,total:c.total,K,ctry:$('cur').selectedOptions[0].text,name:$('bname').value.trim()||'이름 없는 가방'}}
+function save(){const s=summary();s.id=Date.now();const a=load();a.push(s);store(a);$('saved').textContent='목록에 담았어요. 처음 화면의 ’내 가방 목록’에서 볼 수 있어요.'}
+function copyRes(){const s=summary(),t=`[${s.name}] ${s.ctry} 기준 ${s.diff>=0?'해외':'한국'} 구매가 ${man(s.diff)} 이득 (해외 총액 ${won(s.total)} / 한국 ${won(s.K)})`;navigator.clipboard.writeText(t).then(()=>$('saved').textContent='결과를 복사했어요.').catch(()=>$('saved').textContent='복사하지 못했어요.')}
+function renderList(){const a=load().sort((x,y)=>y.diff-x.diff);$('v-list').innerHTML='<h2>내 가방 목록</h2><p class="sub">이득이 큰 순서예요. 같은 가방을 나라별로 저장하면 어디서 사는 게 좋은지 비교할 수 있어요.</p>'+(a.length?'<ul class="items">'+a.map(s=>`<li><div><b>${esc(s.name)}</b><br><span class="hint">${esc(s.ctry)} · 한국 ${man(s.K)} / 해외 ${man(s.total)}</span></div><div class="${s.diff>=0?'win':'lose'}">${s.diff>=0?'해외':'한국'} ${man(s.diff)}</div><button data-act="del" data-id="${s.id}" aria-label="삭제">×</button></li>`).join('')+'</ul>':'<p class="hint">아직 담은 가방이 없어요. 결과 화면에서 ’목록에 담기’를 눌러 보세요.</p>')}
+function cta(v){
+  const b=(t,cls,fn)=>`<button class="btn ${cls}" data-go="${fn}">${t}</button>`;
+  $('cta').innerHTML={
+    start:b('시작하기','','price')+b('예시로 먼저 보기','ghost','demo'),
+    price:b('다음','','detail'),
+    detail:b('결과 보기','','result'),
+    result:b('다른 가방 계산하기','','price')+b('처음으로','ghost','start'),
+    list:b('새 가방 계산하기','','price')+b('처음으로','ghost','start'),
+    check:b('가방 계산하기','','price')+b('처음으로','ghost','start')
+  }[v];
+}
+function show(){
+  let v=location.hash.slice(1);if(!VIEWS.includes(v))v='start';
+  if((v==='detail'||v==='result')&&!(num('price')&&num('korea')))v='price';
+  if(v==='result'&&!num('rate')){v='detail'}
+  VIEWS.forEach(x=>$('v-'+x).classList.toggle('on',x===v));
+  if(v==='result')renderResult();
+  if(v==='list')renderList();
+  $('back').hidden=v==='start';$('ttl').textContent=TT[v];
+  $('dots').innerHTML=!['price','detail','result'].includes(v)?'':VIEWS.slice(1,4).map(x=>`<i class="${VIEWS.indexOf(x)<=VIEWS.indexOf(v)?'on':''}"></i>`).join('');
+  cta(v);window.scrollTo(0,0);
+}
+function go(n){
+  if(n==='demo'){$('cur').value='FR';setCur();$('price').value=3500;$('korea').value=6200000;n='result'}
+  if(n==='detail'&&!(num('price')&&num('korea'))){$('err1').textContent='현지 판매가와 한국 판매가를 모두 입력해 주세요.';return}
+  if(n==='result'&&!num('rate')){$('err2').textContent='결제 환율을 입력해 주세요.';return}
+  if(n==='result'&&$('fta').value==='n'&&!num('ownrate')){$('err2').textContent='증명서를 못 받는 경우 총 세율을 직접 입력해 주세요.';return}
+  if(location.hash==='#'+n)show();else location.hash=n;
+}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-go]');if(t)go(t.dataset.go);const a=e.target.closest('[data-act]');if(a){const k=a.dataset.act;if(k==='save')save();if(k==='copy')copyRes();if(k==='del'){store(load().filter(x=>String(x.id)!==a.dataset.id));renderList()}}});
+$('back').addEventListener('click',()=>go(PREV[location.hash.slice(1)]||'start'));
+$('cur').addEventListener('change',setCur);
+$('fta').addEventListener('change',()=>{$('nofta').hidden=$('fta').value==='y'});
+window.addEventListener('hashchange',show);
+setCur();show();
+</script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>어디서 살까? 명품 해외 vs 한국 가격 비교</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{--bg:#f3f5f4;--card:#fff;--ink:#14231f;--mute:#5d6b66;--line:#d9e0dd;--accent:#0b6b57;--win:#0b6b57;--lose:#b4451f;--bar:#c9d6d1;--tint:#e6efec;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1a17;--card:#15262f;--ink:#e8f0ed;--mute:#97a8a2;--line:#29403a;--accent:#4fd1b0;--win:#4fd1b0;--lose:#f09a73;--bar:#2c4740;--tint:#1a2f2a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1a17;--card:#15262f;--ink:#e8f0ed;--mute:#97a8a2;--line:#29403a;--accent:#4fd1b0;--win:#4fd1b0;--lose:#f09a73;--bar:#2c4740;--tint:#1a2f2a;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 "IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-variant-numeric:tabular-nums}
+main{max-width:1040px;margin:0 auto;padding:28px 18px 56px}
+h1{font-size:clamp(26px,4.5vw,38px);line-height:1.25;margin:0 0 6px;font-weight:700;letter-spacing:-.02em}
+.sub{color:var(--mute);margin:0 0 26px;max-width:60ch}
+.grid{display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+@media(min-width:860px){.grid{grid-template-columns:minmax(0,420px) minmax(0,1fr);align-items:start}.res{position:sticky;top:16px}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px}
+h2{font-size:17px;margin:0 0 14px;font-weight:700}
+label{display:block;font-size:14px;color:var(--mute);margin:12px 0 4px}
+input,select{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+input:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hint{font-size:13px;color:var(--mute);margin:4px 0 0}
+button{font:inherit;cursor:pointer;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:6px;padding:8px 14px;margin-top:16px}
+details{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+summary{cursor:pointer;font-weight:500}
+.verdict{font-size:clamp(22px,3.6vw,30px);line-height:1.3;font-weight:700;margin:0 0 4px}
+.win{color:var(--win)}.lose{color:var(--lose)}
+.bars{margin:18px 0}
+.bar{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:14px}
+.bar b{width:48px;font-weight:500}
+.bar i{display:block;height:26px;background:var(--bar);border-radius:4px;transition:width .35s}
+.bar i.best{background:var(--accent)}
+.bar span{white-space:nowrap}
+.ledger{margin:0;padding:0;list-style:none;font-size:15px}
+.ledger li{display:flex;gap:8px;padding:5px 0}
+.ledger li::after{content:"";order:1;flex:1;border-bottom:1px dotted var(--line);transform:translateY(-6px)}
+.ledger li span:first-child{order:0}.ledger li span:last-child{order:2}
+.ledger li.tot{font-weight:700;border-top:1px solid var(--ink);margin-top:6px;padding-top:10px}
+.ledger li.tot::after{display:none}.ledger li.tot span:first-child{flex:1}
+.sens{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:10px}
+.sens div{background:var(--tint);border-radius:6px;padding:8px 4px;text-align:center;font-size:13px;line-height:1.4}
+.sens div.now{outline:2px solid var(--accent)}
+.empty{color:var(--mute);padding:30px 4px;text-align:center}
+.note{font-size:13px;color:var(--mute);margin-top:18px}
+@media(prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<h1>어디서 살까? 해외 vs 한국 가격 비교</h1>
+<p class="sub">현지 가격, 환율, 세금환급, 귀국 시 세금을 모두 더해서 한국 판매가와 비교해 드려요. 세율과 환율은 전부 직접 고칠 수 있습니다.</p>
+<div class="grid">
+<section class="card" aria-label="입력">
+<h2>가격 입력</h2>
+<div class="row">
+<div><label for="cur">현지 통화</label><select id="cur"><option value="EUR">유로 (EUR)</option><option value="USD">달러 (USD)</option><option value="ETC">기타 통화</option></select></div>
+<div><label for="price">현지 판매가 (세금 포함)</label><input id="price" type="number" inputmode="decimal" min="0" placeholder="예: 3500"></div>
+</div>
+<label for="korea">한국 판매가 (원)</label><input id="korea" type="number" inputmode="numeric" min="0" placeholder="예: 6000000">
+<div class="row">
+<div><label for="rate">결제 환율 (원)</label><input id="rate" type="number" inputmode="decimal" min="0"></div>
+<div><label for="crate">세관 적용 환율 (원)</label><input id="crate" type="number" inputmode="decimal" min="0" placeholder="비우면 결제 환율"></div>
+</div>
+<p class="hint">귀국 시 세금은 직전 한 주 평균 환율(관세환율)로 계산돼요. 기본값은 2026년 8월 기사 기준이라 꼭 오늘 환율로 바꿔 주세요.</p>
+<div class="row">
+<div><label for="vat">현지 부가세율 (%)</label><input id="vat" type="number" inputmode="decimal" min="0" value="20"></div>
+<div><label for="rfee">환급 수수료 (%)</label><input id="rfee" type="number" inputmode="decimal" min="0" value="15"></div>
+</div>
+<div class="row">
+<div><label for="card">카드 해외결제 수수료 (%)</label><input id="card" type="number" inputmode="decimal" min="0" value="1.5"></div>
+<div><label for="extra">기타 비용 (원)</label><input id="extra" type="number" inputmode="numeric" min="0" value="0"></div>
+</div>
+<p class="hint">수수료 기본값은 가정이에요. 본인 카드와 환급 대행사 조건으로 고쳐 주세요. 기타 비용에는 항공·시간 비용 등을 넣을 수 있어요.</p>
+<details><summary>귀국 시 총 세율 설정 (FTA 서류 적용 기준)</summary>
+<p class="hint">환급 후 가격이 아래 금액일 때의 총 세율(%)이에요. 사이 구간은 직선으로 이어서 계산합니다. 2023년 관세사 설명 기준이라 현재와 다를 수 있어요.</p>
+<div class="row">
+<div><label for="r3">300만원 이하</label><input id="r3" type="number" value="10"></div>
+<div><label for="r4">400만원</label><input id="r4" type="number" value="14"></div>
+<div><label for="r5">500만원</label><input id="r5" type="number" value="19"></div>
+<div><label for="r6">600만원 이상</label><input id="r6" type="number" value="23"></div>
+</div>
+</details>
+<button type="button" id="demo">예시 값 넣어보기</button>
+</section>
+<section class="card res" aria-live="polite" id="res"></section>
+</div>
+<p class="note">이 계산기는 참고용이에요. 면세한도(1인 800달러)와 FTA 미적용 간이세율은 반영하지 않았고, 600만원 초과 구간은 추정입니다. 실제 세액은 관세청 ’여행자 세관신고’ 앱이나 관세사에게 확인하세요.</p>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const num=id=>parseFloat($(id).value)||0;
+const won=n=>Math.round(n).toLocaleString('ko-KR')+'원';
+const man=n=>{const m=Math.round(Math.abs(n)/10000);return m.toLocaleString('ko-KR')+'만원'};
+const DEF={EUR:{rate:1633,vat:20},USD:{rate:1412,vat:0},ETC:{rate:'',vat:''}};
+function setCur(){const d=DEF[$('cur').value];$('rate').value=d.rate;$('vat').value=d.vat===''?'':d.vat}
+function taxRate(base){
+  const p=[[3e6,num('r3')],[4e6,num('r4')],[5e6,num('r5')],[6e6,num('r6')]];
+  if(base<=p[0][0])return p[0][1]/100;
+  for(let i=0;i<3;i++){if(base<=p[i+1][0]){const t=(base-p[i][0])/(p[i+1][0]-p[i][0]);return (p[i][1]+t*(p[i+1][1]-p[i][1]))/100}}
+  return p[3][1]/100;
+}
+function calc(rate){
+  const L=num('price'),v=num('vat')/100,rf=num('rfee')/100,cf=num('card')/100;
+  const r0=num('rate'),cr0=num('crate');
+  const ratio=cr0&&r0?cr0/r0:1;
+  const pay=L*rate,fee=pay*cf;
+  const refundL=L*v/(1+v)*(1-rf),refund=refundL*rate;
+  const base=(L-refundL)*rate*ratio,tr=taxRate(base),tax=base*tr;
+  const extra=num('extra');
+  return{pay,fee,refund,base,tr,tax,extra,total:pay+fee-refund+tax+extra};
+}
+function breakEven(korea){
+  const r=num('rate');let lo=0,hi=r*6;
+  if(calc(hi).total<korea)return null;
+  for(let i=0;i<50;i++){const m=(lo+hi)/2;calc(m).total<korea?lo=m:hi=m}
+  return lo;
+}
+function render(){
+  const R=$('res'),L=num('price'),K=num('korea'),r=num('rate');
+  if(!L||!K||!r){R.innerHTML='<p class="empty">현지 가격, 한국 판매가, 환율을 입력하면 비교 결과가 여기에 나와요.</p>';return}
+  const c=calc(r),diff=K-c.total,same=Math.abs(diff)<10000;
+  const cls=same?'':diff>0?'win':'lose';
+  const head=same?'어디서 사도 비슷해요':diff>0?`해외 구매가 ${man(diff)} 이득`:`한국 구매가 ${man(diff)} 이득`;
+  const mx=Math.max(c.total,K);
+  const be=breakEven(K);
+  const sens=[-10,-5,0,5,10].map(p=>{const rr=r*(1+p/100),d=K-calc(rr).total;
+    return `<div class="${p===0?'now':''}">환율 ${p>0?'+':''}${p}%<br>${Math.round(rr).toLocaleString('ko-KR')}원<br><b class="${d>=0?'win':'lose'}">${d>=0?'해외':'한국'} ${man(d)}</b></div>`}).join('');
+  R.innerHTML=`<h2>비교 결과</h2>
+  <p class="verdict ${cls}">${head}</p>
+  <p class="hint">한국 판매가 ${won(K)} vs 해외 총액 ${won(c.total)}</p>
+  <div class="bars">
+   <div class="bar"><b>해외</b><i class="${c.total<=K?'best':''}" style="width:${c.total/mx*60}%"></i><span>${man(c.total)}</span></div>
+   <div class="bar"><b>한국</b><i class="${K<c.total?'best':''}" style="width:${K/mx*60}%"></i><span>${man(K)}</span></div>
+  </div>
+  <ul class="ledger">
+   <li><span>현지 결제액 (원화)</span><span>${won(c.pay)}</span></li>
+   <li><span>카드 수수료</span><span>+${won(c.fee)}</span></li>
+   <li><span>현지 부가세 환급 (수수료 차감)</span><span>−${won(c.refund)}</span></li>
+   <li><span>귀국 시 세금 (총 세율 ${(c.tr*100).toFixed(1)}%)</span><span>+${won(c.tax)}</span></li>
+   <li><span>기타 비용</span><span>+${won(c.extra)}</span></li>
+   <li class="tot"><span>해외 구매 총액</span><span>${won(c.total)}</span></li>
+  </ul>
+  <h2 style="margin-top:22px">환율이 바뀌면?</h2>
+  <div class="sens">${sens}</div>
+  <p class="hint" style="margin-top:12px">${be?`손익분기 환율은 약 ${Math.round(be).toLocaleString('ko-KR')}원이에요. 이보다 환율이 높으면 한국에서 사는 편이 유리합니다.`:'환율이 아주 높아져도 해외가 유리해요.'}${c.base>6e6?' 과세 대상 금액이 600만원을 넘어 세율이 추정이에요.':''}</p>`;
+}
+document.querySelectorAll('input,select').forEach(e=>e.addEventListener('input',render));
+$('cur').addEventListener('change',()=>{setCur();render()});
+$('demo').addEventListener('click',()=>{$('cur').value='EUR';setCur();$('price').value=3500;$('korea').value=6200000;render()});
+setCur();render();
+</script>
+</body>
+</html>
